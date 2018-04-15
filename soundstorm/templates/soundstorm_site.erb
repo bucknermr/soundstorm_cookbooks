@@ -5,8 +5,8 @@ upstream soundstorm_unicorn {
 
 server {
   listen 1443;
-  server_name soundstorm.me
-  return 301 https://www.soundstorm.me$request_uri
+  server_name soundstorm.me;
+  return 301 https://www.soundstorm.me$request_uri;
 }
 
 server {
