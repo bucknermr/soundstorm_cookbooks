@@ -4,27 +4,24 @@ upstream soundstorm_unicorn {
 }
 
 server {
-  listen   80;
-  server_name  soundstorm.me;
-  return 301 https://www.soundstorm.me$request_uri;
+  listen 1443;
+  server_name soundstorm.me
+  return 301 https://www.soundstorm.me$request_uri
 }
 
 server {
   listen   80;
+  return 301 https://www.soundstorm.me$request_uri;
+}
+
+server {
+  listen   1443 default_server;
 
   client_max_body_size 4G;
   # server_name  *;
 
   root <%= node['soundstorm']['path'] %>/public;
   access_log  <%= node['nginx']['log_dir'] %>/soundstorm.access.log;
-
-  location /health {
-    return 200 "healthy\n";
-  }
-
-  if ($http_x_forwarded_proto != 'https') {
-    return 301 https://$host$request_uri;
-  }
 
   location / {
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
