@@ -5,6 +5,11 @@ upstream soundstorm_unicorn {
 
 server {
   listen   80;
+
+  if ($http_x_forwarded_proto != 'https') {
+    return 301 https://$host$request_uri;
+  }
+  
   client_max_body_size 4G;
   # server_name  *;
 
