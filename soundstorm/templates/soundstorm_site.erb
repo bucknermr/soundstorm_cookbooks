@@ -5,11 +5,21 @@ upstream soundstorm_unicorn {
 
 server {
   listen   80;
+  server_name  soundstorm.me
+  return 301 https://www.soundstorm.me$request_uri
+}
+
+server {
+  listen   80;
+
+  location /health {
+    return 200 "healthy\n"
+  }
 
   if ($http_x_forwarded_proto != 'https') {
     return 301 https://$host$request_uri;
   }
-  
+
   client_max_body_size 4G;
   # server_name  *;
 
