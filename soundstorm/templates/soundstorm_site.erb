@@ -4,18 +4,7 @@ upstream soundstorm_unicorn {
 }
 
 server {
-  listen 1443;
-  server_name soundstorm.me;
-  return 301 https://www.soundstorm.me$request_uri;
-}
-
-server {
   listen   80;
-  return 301 https://www.soundstorm.me$request_uri;
-}
-
-server {
-  listen   1443 default_server;
 
   client_max_body_size 4G;
   # server_name  *;
