@@ -4,10 +4,28 @@ upstream soundstorm_unicorn {
 }
 
 server {
+  location /health-check {
+    access_log off;
+    default_type text/plain;
+    return 200 'OK';
+  }
+}
+
+server {
+  listen   80;
+  server_name soundstorm.me;
+  return 301 https://www.$host$request_uri;
+}
+
+server {
   listen   80;
 
+  if ($http_x_forwarded_proto != 'https') {
+       return 301 https://$host$request_uri;
+   }
+
   client_max_body_size 4G;
-  # server_name  *;
+  server_name  www.soundstorm.me;
 
   root <%= node['soundstorm']['path'] %>/public;
   access_log  <%= node['nginx']['log_dir'] %>/soundstorm.access.log;
